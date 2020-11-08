@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391101852013",
+    "firebase_url": "https://principia-f2f45.firebaseio.com",
+    "project_id": "principia-f2f45",
+    "storage_bucket": "principia-f2f45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391101852013:android:8a18db0a0b4236cd7b5264",
+        "android_client_info": {
+          "package_name": "com.digiwrecks.principia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391101852013-k0nuc9ljro11sefmr94ikir44a0b8ac9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDouDe2M0qscx3PYqEF23D7NMGTUOZ5qk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391101852013-k0nuc9ljro11sefmr94ikir44a0b8ac9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
