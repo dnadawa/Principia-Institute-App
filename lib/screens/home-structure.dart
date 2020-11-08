@@ -70,11 +70,6 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-          elevation: 0,
-        centerTitle: true,
-        title: CustomText(text: 'Home',color: Colors.white,),
-      ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -93,9 +88,9 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         controller: tabController,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-        HomePage(color: Colors.red,),
-        HomePage(color: Colors.white,),
-        HomePage(color: Colors.blue,),
+        HomePage(),
+        HomePage(),
+        HomePage(),
         ],
       ),
     );
