@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:principia/screens/homepage.dart';
 import 'package:principia/screens/register.dart';
-import 'package:principia/widgets/custom-text.dart';
+
 
 class HomeStructure extends StatefulWidget {
   final String phone;
@@ -23,6 +23,8 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
   StreamSubscription<QuerySnapshot> subscription;
   TabController tabController;
   String deviceID;
+  String name;
+  String stream;
   getDeviceID() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if(Platform.isAndroid){
@@ -34,12 +36,15 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
       deviceID = iosInfo.identifierForVendor;
     }
   }
-
+  List splittedNames = ['Loading', 'Loading'];
   checkLoggedDevice() async {
     await getDeviceID();
     subscription = FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: widget.phone).snapshots().listen((datasnapshot){
       setState(() {
         devices = datasnapshot.docs;
+        name = devices[0]['name'];
+        stream = devices[0]['stream'];
+        splittedNames = name.split(' ');
       });
       if(devices[0]['deviceId']!=deviceID){
         Navigator.pushReplacement(
@@ -76,9 +81,9 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         animationDuration: Duration(milliseconds: 400),
         height: 60,
         items: <Widget>[
-          Icon(Icons.home, size: 30),
-          Icon(Icons.list, size: 30),
-          Icon(Icons.compare_arrows, size: 30),
+          Icon(Icons.home, size: 30,color: Colors.white,),
+          Icon(Icons.list, size: 30,color: Colors.white),
+          Icon(Icons.compare_arrows, size: 30,color: Colors.white),
         ],
         onTap: (index) {
           tabController.animateTo(index);
@@ -88,9 +93,10 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         controller: tabController,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-        HomePage(),
-        HomePage(),
-        HomePage(),
+        HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
+        HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
+        HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
+
         ],
       ),
     );
