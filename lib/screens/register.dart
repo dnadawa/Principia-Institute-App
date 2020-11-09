@@ -29,7 +29,6 @@ class _RegisterState extends State<Register> {
   String stream;
   String institute;
   double _opacity;
-  Color blackColor = Color(0xff52575D);
   List<DropdownMenuItem<String>> streamList = [];
   List<MultiSelectItem> subjectsList = [];
   List subs = [];
@@ -123,13 +122,13 @@ class _RegisterState extends State<Register> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: blackColor,
+                                    color: Theme.of(context).primaryColor,
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)),
                                   child: DropdownButton(
-                                    underline: Divider(color: blackColor,height: 0,thickness: 0,),
-                                    dropdownColor: blackColor,
+                                    underline: Divider(color: Theme.of(context).primaryColor,height: 0,thickness: 0,),
+                                    dropdownColor: Theme.of(context).primaryColor,
                                     iconEnabledColor: Colors.white,
                                     isExpanded: true,
                                     items: streamList,
@@ -153,10 +152,10 @@ class _RegisterState extends State<Register> {
                               opacity: _opacity,
                               child: MultiSelectChipField(
                                 title: Text('Subjects',style: TextStyle(color: Colors.white),),
-                                headerColor: blackColor,
-                                chipShape: Border.all(color: blackColor),
+                                headerColor: Theme.of(context).primaryColor,
+                                chipShape: Border.all(color: Theme.of(context).primaryColor),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: blackColor,width: 2),
+                                  border: Border.all(color: Theme.of(context).primaryColor,width: 2),
                                   borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
                                 ),
                                 selectedChipColor: Theme.of(context).scaffoldBackgroundColor,
@@ -180,13 +179,13 @@ class _RegisterState extends State<Register> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: blackColor,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)),
                                   child: DropdownButton(
-                                    underline: Divider(color: blackColor,height: 0,thickness: 0,),
-                                    dropdownColor: blackColor,
+                                    underline: Divider(color: Theme.of(context).primaryColor,height: 0,thickness: 0,),
+                                    dropdownColor: Theme.of(context).primaryColor,
                                     iconEnabledColor: Colors.white,
                                     isExpanded: true,
                                     items: <DropdownMenuItem>[

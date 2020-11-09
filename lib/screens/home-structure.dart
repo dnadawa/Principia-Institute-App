@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:principia/screens/announcements.dart';
 import 'package:principia/screens/homepage.dart';
+import 'package:principia/screens/profile.dart';
 import 'package:principia/screens/register.dart';
 
 
@@ -86,7 +87,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         items: <Widget>[
           Icon(Icons.home, size: 30,color: Colors.white,),
           Icon(Icons.chat, size: 30,color: Colors.white),
-          Icon(Icons.compare_arrows, size: 30,color: Colors.white),
+          Icon(Icons.person, size: 30,color: Colors.white),
         ],
         onTap: (index) {
           tabController.animateTo(index);
@@ -96,10 +97,9 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         controller: tabController,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-        HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
+        HomePage(name: splittedNames,stream: stream,subjects: subjects,),
         Announcements(subjects: subjects),
-        HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
-
+        Profile(),
         ],
       ),
     );

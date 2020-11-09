@@ -22,7 +22,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
 
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
-  Color blackColor = Color(0xff52575D);
   AnimationController _controller;
   Animation<double> _animation;
   String deviceID;

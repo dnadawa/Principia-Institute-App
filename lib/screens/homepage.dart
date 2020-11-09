@@ -12,29 +12,30 @@ import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/marquee.dart';
 
 class HomePage extends StatefulWidget {
-  final String phone;
   final List name;
   final String stream;
+  final List subjects;
 
-  const HomePage({Key key, this.phone, this.name, this.stream}) : super(key: key);
+  const HomePage({Key key, this.name, this.stream, this.subjects}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   List<DocumentSnapshot> data;
   StreamSubscription<QuerySnapshot> subscription;
-  List subjects = [];
   List subjectIcons = [];
 
   getData() async {
     subscription = FirebaseFirestore.instance.collection('streams').where('name', isEqualTo: widget.stream).snapshots().listen((datasnapshot){
       setState(() {
         data = datasnapshot.docs;
-        subjects = data[0]['subjects'];
-        subjectIcons = data[0]['icons'];
+        List allSubIcon = data[0]['icons'];
+        List allSubs = data[0]['subjects'];
+        for(int i=0;i<widget.subjects.length;i++){
+          int index = allSubs.indexOf(widget.subjects[i]);
+          subjectIcons.add(allSubIcon[index]);
+        }
       });
     });
   }
@@ -163,10 +164,10 @@ class _HomePageState extends State<HomePage> {
                       initialPage: 0,
                       //height: ScreenUtil().setHeight(500)
                     ),
-                    itemCount: subjects.length,
+                    itemCount: widget.subjects.length,
                     itemBuilder: (context,i){
                       String image = subjectIcons[i];
-                      String subject = subjects[i];
+                      String subject = widget.subjects[i];
                       return Padding(
                         padding:  EdgeInsets.all(ScreenUtil().setWidth(15)),
                         child: GestureDetector(

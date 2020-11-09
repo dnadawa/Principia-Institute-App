@@ -33,7 +33,6 @@ class _OTPState extends State<OTP> with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
   bool showResend;
-  Color blackColor = Color(0xff52575D);
   TextEditingController code = TextEditingController();
   String gVerificationId;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -146,7 +145,7 @@ class _OTPState extends State<OTP> with TickerProviderStateMixin {
                                 padding:  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
                                 child: PinInputTextField(
                                   decoration: BoxLooseDecoration(
-                                    strokeColorBuilder: PinListenColorBuilder(Theme.of(context).scaffoldBackgroundColor, blackColor),
+                                    strokeColorBuilder: PinListenColorBuilder(Theme.of(context).scaffoldBackgroundColor, Theme.of(context).primaryColor),
                                   radius: Radius.circular(10),
                                     gapSpace: 5,
                                     strokeWidth: 2,

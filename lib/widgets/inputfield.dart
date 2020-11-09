@@ -16,17 +16,16 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color blackColor = Color(0xff52575D);
     final textStyle = TextStyle(
       fontWeight: FontWeight.bold,
-      color: blackColor,
+      color: Theme.of(context).primaryColor,
     );
     return Padding(
       padding:  EdgeInsets.only(top: 20),
       child: TextField(
         style: textStyle,
         maxLength: length,
-        cursorColor: blackColor,
+        cursorColor: Theme.of(context).primaryColor,
         keyboardType: type,
         controller: controller,
         obscureText: ispassword,
@@ -34,10 +33,10 @@ class InputField extends StatelessWidget {
           hintText: hint,
           hintStyle: textStyle,
           enabledBorder:UnderlineInputBorder(
-              borderSide: BorderSide(color: blackColor, width: 2),
+              borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
           ),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: blackColor, width: 5),
+              borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 5),
           ),
 
         ),
