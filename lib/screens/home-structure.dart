@@ -6,6 +6,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:principia/screens/announcements.dart';
 import 'package:principia/screens/homepage.dart';
 import 'package:principia/screens/register.dart';
 
@@ -25,6 +26,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
   String deviceID;
   String name;
   String stream;
+  List subjects;
   getDeviceID() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if(Platform.isAndroid){
@@ -44,6 +46,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         devices = datasnapshot.docs;
         name = devices[0]['name'];
         stream = devices[0]['stream'];
+        subjects = devices[0]['subjects'];
         splittedNames = name.split(' ');
       });
       if(devices[0]['deviceId']!=deviceID){
@@ -82,7 +85,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         height: 60,
         items: <Widget>[
           Icon(Icons.home, size: 30,color: Colors.white,),
-          Icon(Icons.list, size: 30,color: Colors.white),
+          Icon(Icons.chat, size: 30,color: Colors.white),
           Icon(Icons.compare_arrows, size: 30,color: Colors.white),
         ],
         onTap: (index) {
@@ -94,7 +97,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
         HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
-        HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
+        Announcements(subjects: subjects),
         HomePage(phone: widget.phone,name: splittedNames,stream: stream,),
 
         ],
