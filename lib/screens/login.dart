@@ -96,7 +96,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                                 child: SizedBox(
                                     width: ScreenUtil().setHeight(300),
                                     height: ScreenUtil().setWidth(300),
-                                    child: Image.asset('images/login.png')),
+                                    child: Image.asset('images/login.jpg')),
                               ),
                               InputField(hint: 'Phone Number (07xxxxxxxx)',type: TextInputType.phone,controller: phone,length: 10,),
                               InputField(hint: 'Password',controller: password,ispassword: true,),

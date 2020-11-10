@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:principia/screens/contact.dart';
 import 'package:principia/screens/lessons.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/marquee.dart';
@@ -61,6 +62,14 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         centerTitle: true,
         title: CustomText(text: 'Home',color: Colors.white,),
+        actions: [
+          IconButton(icon: Icon(Icons.help_outline), onPressed: (){
+            Navigator.push(
+              context,
+              CupertinoPageRoute(builder: (context) => Contact()),
+            );
+          })
+        ],
       ),
       body: Padding(
         padding:  EdgeInsets.all(ScreenUtil().setWidth(35)),
@@ -222,17 +231,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-
-            // RichText(
-            //   text: TextSpan(
-            //     text: 'Developed by ',
-            //     style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: ScreenUtil().setSp(30)),
-            //     children: <TextSpan>[
-            //       TextSpan(text: 'DigiWrecks', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepPurpleAccent,decoration: TextDecoration.underline)),
-            //     ],
-            //   ),
-            // )
-
           ],
         ),
       ),

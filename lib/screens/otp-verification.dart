@@ -137,7 +137,7 @@ class _OTPState extends State<OTP> with TickerProviderStateMixin {
                                   child: SizedBox(
                                       width: ScreenUtil().setHeight(300),
                                       height: ScreenUtil().setWidth(300),
-                                      child: Image.asset('images/verify.png')),
+                                      child: Image.asset('images/verify.jpg')),
                                 ),
                               ),
                               CustomText(text: 'You will receieve a 6 digit code to verify your phone number. Enter the code to complete the verification',size: ScreenUtil().setSp(30),),

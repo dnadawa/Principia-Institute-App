@@ -108,7 +108,7 @@ class _RegisterState extends State<Register> {
                               child: SizedBox(
                                   width: ScreenUtil().setHeight(300),
                                   height: ScreenUtil().setWidth(300),
-                                  child: Image.asset('images/register.png')),
+                                  child: Image.asset('images/register.jpg')),
                             ),
                             InputField(hint: 'Name',controller: name,),
                             InputField(hint: 'Phone Number (07xxxxxxxx)',type: TextInputType.phone,controller: phone,length: 10,),
