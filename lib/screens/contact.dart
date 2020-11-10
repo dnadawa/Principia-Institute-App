@@ -85,7 +85,7 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                   child: SizedBox(
                                       width: ScreenUtil().setHeight(250),
                                       height: ScreenUtil().setWidth(250),
-                                      child: Image.asset('images/verify.jpg')),
+                                      child: Image.asset('images/contact.jpg')),
                                 ),
                               ),
                               CustomText(text: 'If you have any problems or if you need any help, please contact us on following ways!',align: TextAlign.start,),

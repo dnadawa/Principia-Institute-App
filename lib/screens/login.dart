@@ -10,6 +10,7 @@ import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/inputfield.dart';
 import 'package:principia/widgets/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home-structure.dart';
 import 'otp-verification-login.dart';
 
@@ -110,6 +111,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                                   if(users.isNotEmpty){
                                     if(users[0]['password']==password.text){
                                       if(users[0]['deviceId']==deviceID){
+                                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                                        prefs.setString('phone', phone.text);
                                         Navigator.of(context).pushAndRemoveUntil(
                                             SlideDownRoute(page: HomeStructure(phone: phone.text,)), (Route<dynamic> route) => false);
                                       }

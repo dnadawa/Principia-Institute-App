@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:principia/screens/otp-verification.dart';
+import 'package:principia/screens/home-structure.dart';
 import 'package:principia/screens/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main(){
   runApp(MyApp());
@@ -14,6 +15,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String phone;
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      phone = prefs.getString('phone');
+    });
+    print(phone);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -28,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           Theme.of(context).textTheme,
         ),
       ),
-      home: Register(),
+      home: phone==null?Register():HomeStructure(phone: phone,),
     );
   }
 }

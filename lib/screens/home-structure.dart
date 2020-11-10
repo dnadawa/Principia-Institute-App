@@ -10,6 +10,8 @@ import 'package:principia/screens/announcements.dart';
 import 'package:principia/screens/homepage.dart';
 import 'package:principia/screens/profile.dart';
 import 'package:principia/screens/register.dart';
+import 'package:principia/widgets/animated-transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomeStructure extends StatefulWidget {
@@ -42,6 +44,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
   List splittedNames = ['Loading', 'Loading'];
   checkLoggedDevice() async {
     await getDeviceID();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     subscription = FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: widget.phone).snapshots().listen((datasnapshot){
       setState(() {
         devices = datasnapshot.docs;
@@ -51,10 +54,9 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         splittedNames = name.split(' ');
       });
       if(devices[0]['deviceId']!=deviceID){
-        Navigator.pushReplacement(
-          context,
-          CupertinoPageRoute(builder: (context) => Register()),
-        );
+        prefs.setString('phone', null);
+        Navigator.of(context).pushAndRemoveUntil(
+            CupertinoPageRoute(builder: (context) => Register()), (Route<dynamic> route) => false);
       }
     });
   }

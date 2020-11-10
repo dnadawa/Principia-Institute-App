@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:principia/screens/register.dart';
+import 'package:principia/widgets/animated-transition.dart';
 import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/labled-inputfield.dart';
 import 'package:principia/widgets/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   final String phone;
@@ -210,7 +214,15 @@ class _ProfileState extends State<Profile> {
                 catch(e){
                   ToastBar(text: 'Something went wrong!',color: Colors.red).show();
                 }
-              },)
+              },),
+              SizedBox(height: ScreenUtil().setHeight(10)),
+              Button(text: 'Log Out',color: Colors.red,onclick: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('phone', null);
+                Navigator.of(context).pushAndRemoveUntil(
+                    CupertinoPageRoute(builder: (context) => Register()), (Route<dynamic> route) => false);
+              },),
+              SizedBox(height: ScreenUtil().setHeight(20)),
             ],
           ),
         ),

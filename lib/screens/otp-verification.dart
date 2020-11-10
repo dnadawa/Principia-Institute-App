@@ -11,6 +11,7 @@ import 'package:principia/widgets/animated-transition.dart';
 import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home-structure.dart';
 
@@ -189,6 +190,8 @@ class _OTPState extends State<OTP> with TickerProviderStateMixin {
                                       'institute': widget.institute,
                                       'deviceId': deviceID
                                     });
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    prefs.setString('phone', widget.phone);
                                     ToastBar(text: 'Registered Successfully!',color: Colors.green).show();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         SlideDownRoute(page: HomeStructure(phone: widget.phone,)), (Route<dynamic> route) => false);
