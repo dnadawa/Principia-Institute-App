@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
@@ -9,8 +7,12 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/labled-inputfield.dart';
+import 'package:principia/widgets/toast.dart';
 
 class Profile extends StatefulWidget {
+  final String phone;
+  final List subjects;
+  const Profile({Key key, this.phone, this.subjects}) : super(key: key);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -23,6 +25,11 @@ class _ProfileState extends State<Profile> {
   List<MultiSelectItem> subjectsList = [];
   List subs = [];
 
+  TextEditingController name = TextEditingController();
+  TextEditingController year = TextEditingController();
+
+  List<DocumentSnapshot> devices;
+  StreamSubscription<QuerySnapshot> subscription;
 
   getStreams() async {
     var sub = await FirebaseFirestore.instance.collection('streams').get();
@@ -52,14 +59,29 @@ class _ProfileState extends State<Profile> {
       });
     }
   }
+  List subjects;
+
+  getData() async {
+    subscription = FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: widget.phone).snapshots().listen((datasnapshot){
+      setState(() {
+        devices = datasnapshot.docs;
+        name.text = devices[0]['name'];
+        year.text = devices[0]['year'];
+        institute = devices[0]['institute'];
+        stream = devices[0]['stream'];
+      });
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     institute = 'Principia - Galle';
+    subjects = widget.subjects;
     _opacity = 1;
     getStreams();
+    getData();
   }
 
   @override
@@ -83,7 +105,7 @@ class _ProfileState extends State<Profile> {
                   child: Image.asset('images/profile.jpg')
               ),
               SizedBox(height: ScreenUtil().setHeight(20)),
-              LabeledInputField(hint: 'Name',),
+              LabeledInputField(hint: 'Name',controller: name,),
               SizedBox(height: ScreenUtil().setHeight(20)),
               Center(
                 child: Container(
@@ -118,6 +140,7 @@ class _ProfileState extends State<Profile> {
                 curve: Curves.fastOutSlowIn,
                 opacity: _opacity,
                 child: MultiSelectChipField(
+                  initialValue: subjects,
                   title: Text('Subjects',style: TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),),
                   headerColor: Theme.of(context).scaffoldBackgroundColor,
                   chipShape: Border.all(color: Theme.of(context).scaffoldBackgroundColor),
@@ -135,7 +158,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(height: ScreenUtil().setHeight(20)),
-              LabeledInputField(hint: 'A/L Year',type: TextInputType.number,),
+              LabeledInputField(hint: 'A/L Year',type: TextInputType.number,controller: year,),
               SizedBox(height: ScreenUtil().setHeight(20)),
               Center(
                 child: Container(
@@ -166,7 +189,21 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(height: ScreenUtil().setHeight(40)),
-              Button(text: 'Update',onclick: (){},)
+              Button(text: 'Update',onclick: () async {
+                try{
+                  await FirebaseFirestore.instance.collection('users').doc(widget.phone).update({
+                    'name': name.text,
+                    'stream': stream,
+                    'subjects': subs,
+                    'year': year.text,
+                    'institute': institute
+                  });
+                  ToastBar(text: 'Data Updated!',color: Colors.green).show();
+                }
+                catch(e){
+                  ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                }
+              },)
             ],
           ),
         ),

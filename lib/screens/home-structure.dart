@@ -99,7 +99,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         children: <Widget>[
         subjects!=null?HomePage(name: splittedNames,stream: stream,subjects: subjects,):Center(child: CircularProgressIndicator(),),
         Announcements(subjects: subjects),
-        Profile(),
+        Profile(phone: widget.phone,subjects: subjects,),
         ],
       ),
     );
