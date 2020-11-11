@@ -55,14 +55,9 @@ class _AnnouncementsState extends State<Announcements> {
         padding:  EdgeInsets.fromLTRB(ScreenUtil().setHeight(25),ScreenUtil().setHeight(30),ScreenUtil().setHeight(25),ScreenUtil().setHeight(40)),
         child: Column(
           children: [
-            SizedBox(
-                width: ScreenUtil().setHeight(250),
-                height: ScreenUtil().setHeight(250),
-                child: Image.asset('images/chat.png')),
             Expanded(
               child: Card(
-                elevation: 5,
-                color: Theme.of(context).scaffoldBackgroundColor,
+                elevation: 7,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
@@ -95,7 +90,7 @@ class _AnnouncementsState extends State<Announcements> {
                                     SizedBox(width: ScreenUtil().setWidth(10),),
                                     ChatBubble(
                                       clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
-                                      backGroundColor: Colors.white,
+                                      backGroundColor: Theme.of(context).scaffoldBackgroundColor,
                                       margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
                                       child: Container(
                                         constraints: BoxConstraints(
@@ -112,7 +107,7 @@ class _AnnouncementsState extends State<Announcements> {
                       },
                     ),
                   )
-                      :Center(child: CustomText(text: 'There are no announcements!',color: Colors.white,size: ScreenUtil().setSp(35),isBold: false,))
+                      :Center(child: CustomText(text: 'There are no announcements!',color: Theme.of(context).primaryColor,size: ScreenUtil().setSp(35),isBold: false,))
                       :Center(child: CircularProgressIndicator(),),
                 ),
               ),

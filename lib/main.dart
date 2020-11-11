@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:principia/screens/home-structure.dart';
 import 'package:principia/screens/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main(){
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -25,10 +30,15 @@ class _MyAppState extends State<MyApp> {
     print(phone);
   }
 
+  Future<void> secureScreen() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    secureScreen();
     getData();
   }
 
@@ -41,6 +51,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xffF89D13),
+        accentColor: Color(0xffF89D13),
         primaryColor: Color(0xff52575D),
         textTheme: GoogleFonts.ubuntuTextTheme(
           Theme.of(context).textTheme,
