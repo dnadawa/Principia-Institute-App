@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:principia/screens/video.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/marquee.dart';
 
@@ -28,61 +30,74 @@ class _LessonsState extends State<Lessons> {
         child: ListView(
           physics: BouncingScrollPhysics(),
           children: [
-              Card(
-                elevation: 6,
-                color: Theme.of(context).scaffoldBackgroundColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
-                            color: Colors.white
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => VideoScreen(
+                      videoId: '476777145',
+                      title: 'Politics Lesson 1',
+                      description: 'This is the sample description of political lesson',
+                      id: 'maMAlOKzaQclYyrDO3Ve',
+                    )),
+                  );
+                },
+                child: Card(
+                  elevation: 6,
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+                              color: Colors.white
+                            ),
+                            child: SizedBox(
+                                //height: ScreenUtil().setHeight(250),
+                                child: Image.asset('images/maths.png')),
                           ),
-                          child: SizedBox(
-                              //height: ScreenUtil().setHeight(250),
-                              child: Image.asset('images/maths.png')),
                         ),
-                      ),
-                      SizedBox(width: ScreenUtil().setHeight(15),),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              //height: ScreenUtil().setHeight(130),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Theme.of(context).primaryColor,
+                        SizedBox(width: ScreenUtil().setHeight(15),),
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                //height: ScreenUtil().setHeight(130),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                                  child: Center(child: CustomText(text: 'Trigonometry',color: Colors.white,size: ScreenUtil().setSp(35),)),
+                                ),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
-                                child: Center(child: CustomText(text: 'Trigonometry',color: Colors.white,size: ScreenUtil().setSp(35),)),
+                              SizedBox(height: ScreenUtil().setHeight(15),),
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(ScreenUtil().setHeight(15)),
+                                  child: MarqueeWidget(child: CustomText(text: 'Ends in 2020/11/16 @ 8.30 a.m',color: Colors.red,size: ScreenUtil().setSp(25))),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(15),),
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(ScreenUtil().setHeight(15)),
-                                child: MarqueeWidget(child: CustomText(text: 'Ends in 2020/11/16 @ 8.30 a.m',color: Colors.red,size: ScreenUtil().setSp(25))),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
