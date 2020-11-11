@@ -102,7 +102,7 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                       CustomText(text: 'Contact us through an email for further clarification about your problem. We will reply to you as soon as possible',isBold: false,align: TextAlign.start),
                                       SizedBox(height: ScreenUtil().setHeight(25),),
                                       Button(text: 'Send an email',color: Theme.of(context).scaffoldBackgroundColor,onclick: () async {
-                                        var url = 'mailto:wans.solk@gmail.com?subject=Principia Edu&body=';
+                                        var url = 'mailto:info@principia.edu.lk?subject=Principia Edu&body=';
                                         if (await canLaunch(url)) {
                                         await launch(url);
                                         } else {
@@ -128,7 +128,7 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                       CustomText(text: 'Mon - Fri : 8.30 a.m to 5.00 p.m',align: TextAlign.center,size: ScreenUtil().setSp(35)),
                                       SizedBox(height: ScreenUtil().setHeight(25),),
                                       Button(text: 'Make a phone call',color: Theme.of(context).scaffoldBackgroundColor,onclick: () async {
-                                        var url = 'tel://+94723100600';
+                                        var url = 'tel://+94775612032';
                                         if (await canLaunch(url)) {
                                         await launch(url);
                                         } else {

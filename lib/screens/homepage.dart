@@ -14,9 +14,10 @@ import 'package:principia/widgets/marquee.dart';
 class HomePage extends StatefulWidget {
   final List name;
   final String stream;
+  final String phone;
   final List subjects;
 
-  const HomePage({Key key, this.name, this.stream, this.subjects}) : super(key: key);
+  const HomePage({Key key, this.name, this.stream, this.subjects, this.phone}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -182,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: (){
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => Lessons(subject: subject,)),
+                              CupertinoPageRoute(builder: (context) => Lessons(subject: subject,phone: widget.phone,)),
                             );
                           },
                           child: Card(

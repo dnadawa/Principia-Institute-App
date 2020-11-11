@@ -46,6 +46,9 @@ dependencies:
   shared_preferences: ^0.5.12+4
   flutter_windowmanager: ^0.0.2
   vimeoplayer: ^0.1.8
+  ntp: ^1.0.7
+  mailer: ^3.2.1
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

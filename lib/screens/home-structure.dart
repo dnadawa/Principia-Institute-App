@@ -99,7 +99,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         controller: tabController,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-        subjects!=null?HomePage(name: splittedNames,stream: stream,subjects: subjects,):Center(child: CircularProgressIndicator(),),
+        subjects!=null?HomePage(name: splittedNames,stream: stream,subjects: subjects,phone: widget.phone,):Center(child: CircularProgressIndicator(),),
         Announcements(subjects: subjects),
         Profile(phone: widget.phone,subjects: subjects,),
         ],
