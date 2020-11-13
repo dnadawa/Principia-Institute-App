@@ -14,8 +14,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    //Timer(Duration(seconds: 5),()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyApp()),(Route<dynamic> route)=>false)
-    //);
+    Timer(Duration(seconds: 5),()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyApp()),(Route<dynamic> route)=>false)
+    );
   }
 
   @override
@@ -29,10 +29,16 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Expanded(child: Container(),),
             Image.asset('images/splash.gif'),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: CustomText(text: 'Developed by DigiWrecks',size: ScreenUtil().setHeight(30),)),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(ScreenUtil().setWidth(40)),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CustomText(text: 'Developed by DigiWrecks',size: ScreenUtil().setHeight(33),)),
+              ),
+            ),
           ],
         ),
       ),
