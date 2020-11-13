@@ -57,7 +57,7 @@ class _AnnouncementsState extends State<Announcements> {
           children: [
             Expanded(
               child: Card(
-                elevation: 7,
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),

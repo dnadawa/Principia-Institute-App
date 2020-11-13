@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)
                 ),
-                elevation: 7,
+                elevation: 5,
                 color: Theme.of(context).primaryColor,
                 child: Padding(
                   padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
@@ -183,14 +183,14 @@ class _HomePageState extends State<HomePage> {
                           onTap: (){
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => Lessons(subject: subject,phone: widget.phone,)),
+                              CupertinoPageRoute(builder: (context) => Lessons(subject: subject,phone: widget.phone)),
                             );
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            elevation: 6,
+                            elevation: 5,
                             child: Column(
                               children: [
                                 Padding(

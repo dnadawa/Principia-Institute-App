@@ -15,7 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Profile extends StatefulWidget {
   final String phone;
   final List subjects;
-  const Profile({Key key, this.phone, this.subjects}) : super(key: key);
+  final String stream;
+  const Profile({Key key, this.phone, this.subjects, this.stream}) : super(key: key);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -38,7 +39,7 @@ class _ProfileState extends State<Profile> {
     var sub = await FirebaseFirestore.instance.collection('streams').get();
     List streams = sub.docs;
     if(streams.isNotEmpty){
-      stream = streams[0]['name'];
+      stream = widget.stream;
       for(int i=0;i<streams.length;i++){
         setState(() {
           streamList.add(
@@ -52,6 +53,7 @@ class _ProfileState extends State<Profile> {
 
   getSubjects(String name) async {
     subjectsList.clear();
+    subs.clear();
     var sub = await FirebaseFirestore.instance.collection('streams').where('name', isEqualTo: name).get();
     var subjects = sub.docs;
     for(int i=0;i<subjects[0]['subjects'].length;i++){
@@ -75,7 +77,6 @@ class _ProfileState extends State<Profile> {
       });
     });
   }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -116,34 +117,35 @@ class _ProfileState extends State<Profile> {
               ),
               SizedBox(height: ScreenUtil().setHeight(20)),
               LabeledInputField(hint: 'Name',controller: name,),
-              SizedBox(height: ScreenUtil().setHeight(20)),
-              Center(
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Theme.of(context).scaffoldBackgroundColor,width: 3)
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)),
-                    child: DropdownButton(
-                      underline: Divider(color: Colors.white,height: 0,thickness: 0,),
-                      iconEnabledColor: Theme.of(context).primaryColor,
-                      isExpanded: true,
-                      items: streamList,
-                      onChanged:(newValue){
-                        setState(() {
-                          _opacity = 0;
-                          stream = newValue;
-                          getSubjects(stream);
-                          Timer(Duration(milliseconds: 400), (){_opacity = 1;setState(() {});});
-                        });
-                      },
-                      value: stream,
-                    ),
-                  ),
-                ),
-              ),
+              // SizedBox(height: ScreenUtil().setHeight(20)),
+              // Center(
+              //   child: Container(
+              //     width: double.infinity,
+              //     decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(10),
+              //         border: Border.all(color: Theme.of(context).scaffoldBackgroundColor,width: 3)
+              //     ),
+              //     child: Padding(
+              //       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)),
+              //       child: DropdownButton(
+              //         underline: Divider(color: Colors.white,height: 0,thickness: 0,),
+              //         iconEnabledColor: Theme.of(context).primaryColor,
+              //         isExpanded: true,
+              //         items: streamList,
+              //         onChanged:(newValue){
+              //           setState(() {
+              //             subjects.clear();
+              //             _opacity = 0;
+              //             stream = newValue;
+              //             getSubjects(stream);
+              //             Timer(Duration(milliseconds: 400), (){_opacity = 1;setState(() {});});
+              //           });
+              //         },
+              //         value: stream,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: ScreenUtil().setHeight(20)),
               AnimatedOpacity(
                 duration: Duration(milliseconds: 500),
@@ -164,6 +166,7 @@ class _ProfileState extends State<Profile> {
                   icon: Icon(Icons.check,color: Colors.white,),
                   onTap: (l){
                     subs = l;
+                    print(subs);
                   },
                 ),
               ),
@@ -198,7 +201,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              SizedBox(height: ScreenUtil().setHeight(40)),
+              SizedBox(height: ScreenUtil().setHeight(100)),
               Button(text: 'Update',onclick: () async {
                 try{
                   await FirebaseFirestore.instance.collection('users').doc(widget.phone).update({

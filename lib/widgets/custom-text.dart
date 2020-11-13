@@ -8,7 +8,8 @@ class CustomText extends StatelessWidget {
   final TextAlign align;
   final bool isBold;
   final String font;
-  const CustomText({Key key, this.text, this.size, this.color, this.align=TextAlign.center, this.isBold=true, this.font}) : super(key: key);
+  final double height;
+  const CustomText({Key key, this.text, this.size, this.color, this.align=TextAlign.center, this.isBold=true, this.font, this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class CustomText extends StatelessWidget {
         fontFamily: font,
         fontWeight: isBold?FontWeight.bold:FontWeight.normal,
         fontSize: size,
+        height: height
       ),
     );
   }

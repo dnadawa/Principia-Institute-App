@@ -51,40 +51,38 @@ class _LessonsState extends State<Lessons> {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: Colors.white,
-          title: CustomText(text: 'You can request this lesson if you missed it! Once admin approved it, you can see that lesson on Past Lessons section for a limited time!',align: TextAlign.center,color: Colors.black,),
           content: Container(
-            height: ScreenUtil().setHeight(200),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding:  EdgeInsets.all(ScreenUtil().setHeight(40)),
-                  child: Button(text: 'Request Now!',color: Theme.of(context).scaffoldBackgroundColor,onclick: () async {
-                    ToastBar(text: 'Please wait...',color: Colors.orange).show();
-                    String username = 'principiagalle@gmail.com';
-                    String password = 'admin@principia';
+                CustomText(text: 'You can request this lesson if you missed it! Once admin approved it, you can see that lesson on Past Lessons section for a limited time!',align: TextAlign.center,color: Colors.black,),
+                SizedBox(height: ScreenUtil().setHeight(50),),
+                Button(text: 'Request Now!',color: Color(0xffF89D13),onclick: () async {
+                  ToastBar(text: 'Please wait...',color: Colors.orange).show();
+                  String username = 'principiagalle@gmail.com';
+                  String password = 'admin@principia';
 
-                    final smtpServer = gmail(username, password);
-                    // Create our message.
-                    final message = Message()
-                      ..from = Address(username, 'Principia Edu')
-                      ..recipients.add('wans.solk@gmail.com')
-                      ..subject = 'New Request for expired lesson!'
-                      ..text = 'The User ${widget.phone} requested access for lesson $name ($id)';
+                  final smtpServer = gmail(username, password);
+                  // Create our message.
+                  final message = Message()
+                    ..from = Address(username, 'Principia Edu')
+                    ..recipients.add('wans.solk@gmail.com')
+                    ..subject = 'New Request for expired lesson!'
+                    ..text = 'The User ${widget.phone} requested access for lesson $name ($id)';
 
-                    try {
-                      final sendReport = await send(message, smtpServer);
-                      print('Message sent: ' + sendReport.toString());
-                      ToastBar(text: 'Message Sent!',color: Colors.green).show();
-                      Navigator.pop(context);
-                    } on MailerException catch (e) {
-                      print('Message not sent.');
-                      ToastBar(text: 'Something went wrong!',color: Colors.red).show();
-                      for (var p in e.problems) {
-                        print('Problem: ${p.code}: ${p.msg}');
-                      }
+                  try {
+                    final sendReport = await send(message, smtpServer);
+                    print('Message sent: ' + sendReport.toString());
+                    ToastBar(text: 'Message Sent!',color: Colors.green).show();
+                    Navigator.pop(context);
+                  } on MailerException catch (e) {
+                    print('Message not sent.');
+                    ToastBar(text: 'Something went wrong!',color: Colors.red).show();
+                    for (var p in e.problems) {
+                      print('Problem: ${p.code}: ${p.msg}');
                     }
-                  }),
-                ),
+                  }
+                }),
               ],
             ),
           ),
@@ -205,7 +203,7 @@ class _LessonsState extends State<Lessons> {
                           }
                         },
                         child: Card(
-                          elevation: 6,
+                          elevation: 5,
                           color: Theme.of(context).scaffoldBackgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

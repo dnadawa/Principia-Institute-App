@@ -65,7 +65,7 @@ class _PastLessonsState extends State<PastLessons> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: CustomText(text: widget.subject,color: Colors.white,),
+        title: CustomText(text: 'Past Lessons',color: Colors.white,),
 
       ),
       body: Padding(
@@ -91,6 +91,9 @@ class _PastLessonsState extends State<PastLessons> {
               if(countList[index]>=adminCount){
                 status = 'out-of-views';
               }
+              else if(expired.isBefore(now)){
+                status = 'session-expired';
+              }
               else{
                 status = 'ongoing';
               }
@@ -105,6 +108,9 @@ class _PastLessonsState extends State<PastLessons> {
                         onTap: (){
                           if(status=='out-of-views'){
                             ToastBar(text: 'You have reached maximum attempts to watch the lesson!',color: Colors.red).show();
+                          }
+                          else if(status=='session-expired'){
+                            ToastBar(text: 'Session Expired!',color: Colors.red).show();
                           }
                           else{
                             showDialog(
@@ -139,7 +145,7 @@ class _PastLessonsState extends State<PastLessons> {
                           }
                         },
                         child: Card(
-                          elevation: 6,
+                          elevation: 5,
                           color: Theme.of(context).scaffoldBackgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

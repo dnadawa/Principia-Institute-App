@@ -44,7 +44,6 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
   List splittedNames = ['Loading', 'Loading'];
   checkLoggedDevice() async {
     await getDeviceID();
-    await Firebase.initializeApp();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     subscription = FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: widget.phone).snapshots().listen((datasnapshot){
       setState(() {
@@ -102,7 +101,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
         children: <Widget>[
         subjects!=null?HomePage(name: splittedNames,stream: stream,subjects: subjects,phone: widget.phone,):Center(child: CircularProgressIndicator(),),
         Announcements(subjects: subjects),
-        Profile(phone: widget.phone,subjects: subjects,),
+        Profile(phone: widget.phone,subjects: subjects,stream: stream,),
         ],
       ),
     );

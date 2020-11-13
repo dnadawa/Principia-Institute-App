@@ -41,6 +41,7 @@ class _VideoScreenState extends State<VideoScreen> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
+        backgroundColor: Color(0xff52575D),
         title: CustomText(text: widget.title,color: Colors.white,),
       ),
       body: SingleChildScrollView(
@@ -54,7 +55,7 @@ class _VideoScreenState extends State<VideoScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)
                 ),
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: Color(0xffF89D13),
                 child: Column(
                   children: [
                     Padding(
@@ -67,6 +68,7 @@ class _VideoScreenState extends State<VideoScreen> {
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
                       child: Container(
+                        width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
                           color: Colors.white
@@ -88,7 +90,7 @@ class _VideoScreenState extends State<VideoScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: Color(0xffF89D13),
                 child: Column(
                   children: [
                     Padding(

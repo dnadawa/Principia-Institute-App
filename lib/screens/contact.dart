@@ -79,10 +79,10 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                       child: Image.asset('images/contact.jpg')),
                                 ),
                               ),
-                              CustomText(text: 'If you have any problems or if you need any help, please contact us on following ways!',align: TextAlign.start,),
+                              CustomText(text: 'If you have any problems or if you need any help, please contact us on following ways!',align: TextAlign.start,size: ScreenUtil().setSp(32),),
                               SizedBox(height: ScreenUtil().setHeight(25),),
                               Card(
-                                elevation: 7,
+                                elevation: 5,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)
                                 ),
@@ -90,8 +90,8 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                   padding:  EdgeInsets.all(ScreenUtil().setHeight(20)),
                                   child: Column(
                                     children: [
-                                      CustomText(text: 'Contact us through an email for further clarification about your problem. We will reply to you as soon as possible',isBold: false,align: TextAlign.start),
-                                      SizedBox(height: ScreenUtil().setHeight(25),),
+                                      CustomText(text: 'Contact us through an email for further clarification about your problem. We will reply to you as soon as possible',isBold: false,align: TextAlign.start,height: 1.5,),
+                                      SizedBox(height: ScreenUtil().setHeight(40),),
                                       Button(text: 'Send an email',color: Theme.of(context).scaffoldBackgroundColor,onclick: () async {
                                         var url = 'mailto:info@principia.edu.lk?subject=Principia Edu&body=';
                                         if (await canLaunch(url)) {
@@ -106,7 +106,7 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                               ),
                               SizedBox(height: ScreenUtil().setHeight(25),),
                               Card(
-                                elevation: 7,
+                                elevation: 5,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)
                                 ),
@@ -114,10 +114,10 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                   padding:  EdgeInsets.all(ScreenUtil().setHeight(20)),
                                   child: Column(
                                     children: [
-                                      CustomText(text: 'Make a phone call for solve your issue soon. Phone line available at following hours',isBold: false,align: TextAlign.start),
+                                      CustomText(text: 'Make a phone call for solve your issue soon. Phone line available at following hours',isBold: false,align: TextAlign.start,height: 1.5,),
                                       SizedBox(height: ScreenUtil().setHeight(25),),
                                       CustomText(text: 'Mon - Fri : 8.30 a.m to 5.00 p.m',align: TextAlign.center,size: ScreenUtil().setSp(35)),
-                                      SizedBox(height: ScreenUtil().setHeight(25),),
+                                      SizedBox(height: ScreenUtil().setHeight(40),),
                                       Button(text: 'Make a phone call',color: Theme.of(context).scaffoldBackgroundColor,onclick: () async {
                                         var url = 'tel://+94775612032';
                                         if (await canLaunch(url)) {
@@ -130,7 +130,7 @@ class _ContactState extends State<Contact> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: ScreenUtil().setHeight(25),),
+                              SizedBox(height: ScreenUtil().setHeight(80),),
                               Center(
                                 child: GestureDetector(
                                   onTap: () async {

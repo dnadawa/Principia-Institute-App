@@ -136,6 +136,7 @@ class _RegisterState extends State<Register> {
                                       setState(() {
                                         _opacity = 0;
                                         stream = newValue;
+                                        subs.clear();
                                         getSubjects(stream);
                                         Timer(Duration(milliseconds: 400), (){_opacity = 1;setState(() {});});
                                       });
@@ -164,6 +165,7 @@ class _RegisterState extends State<Register> {
                                 icon: Icon(Icons.check,color: Colors.white,),
                                 onTap: (l){
                                   subs = l;
+                                  print(subs);
                                   },
                               ),
                             ),
