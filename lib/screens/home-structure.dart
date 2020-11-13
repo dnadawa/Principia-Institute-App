@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:device_info/device_info.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:principia/screens/announcements.dart';
 import 'package:principia/screens/homepage.dart';
 import 'package:principia/screens/profile.dart';
 import 'package:principia/screens/register.dart';
-import 'package:principia/widgets/animated-transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -44,6 +44,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
   List splittedNames = ['Loading', 'Loading'];
   checkLoggedDevice() async {
     await getDeviceID();
+    await Firebase.initializeApp();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     subscription = FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: widget.phone).snapshots().listen((datasnapshot){
       setState(() {

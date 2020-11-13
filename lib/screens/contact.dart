@@ -1,19 +1,10 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_info/device_info.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:principia/widgets/animated-transition.dart';
 import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
-import 'package:principia/widgets/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'home-structure.dart';
 
 class Contact extends StatefulWidget {
   @override

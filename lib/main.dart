@@ -4,13 +4,17 @@ import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:principia/screens/home-structure.dart';
 import 'package:principia/screens/register.dart';
+import 'package:principia/screens/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(MyApp());
+    runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Splash(),
+    ));
   });
 }
 
@@ -21,7 +25,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String phone;
-
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {

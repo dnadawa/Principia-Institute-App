@@ -7,31 +7,27 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
 import 'package:ntp/ntp.dart';
-import 'package:principia/screens/past-lessons.dart';
 import 'package:principia/screens/video.dart';
-import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/marquee.dart';
 import 'package:principia/widgets/toast.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:mailer/mailer.dart';
 
-class Lessons extends StatefulWidget {
+class PastLessons extends StatefulWidget {
   final String subject;
   final String phone;
-  const Lessons({Key key, this.subject, this.phone}) : super(key: key);
+  const PastLessons({Key key, this.subject, this.phone}) : super(key: key);
 
   @override
-  _LessonsState createState() => _LessonsState();
+  _PastLessonsState createState() => _PastLessonsState();
 }
 
-class _LessonsState extends State<Lessons> {
+class _PastLessonsState extends State<PastLessons> {
   List<DocumentSnapshot> data;
   StreamSubscription<QuerySnapshot> subscription;
   DateTime now;
 
   getData(){
-    subscription = FirebaseFirestore.instance.collection('lessons').where('payed', arrayContains: widget.phone).where('subject', isEqualTo: widget.subject).snapshots().listen((datasnapshot){
+    subscription = FirebaseFirestore.instance.collection('lessons').where('past', arrayContains: widget.phone).where('subject', isEqualTo: widget.subject).snapshots().listen((datasnapshot){
       setState(() {
         data = datasnapshot.docs;
       });
@@ -44,54 +40,6 @@ class _LessonsState extends State<Lessons> {
     getData();
   }
 
-  requestCard(BuildContext context, String name,String id) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: Colors.white,
-          title: CustomText(text: 'You can request this lesson if you missed it! Once admin approved it, you can see that lesson on Past Lessons section for a limited time!',align: TextAlign.center,color: Colors.black,),
-          content: Container(
-            height: ScreenUtil().setHeight(200),
-            child: Column(
-              children: [
-                Padding(
-                  padding:  EdgeInsets.all(ScreenUtil().setHeight(40)),
-                  child: Button(text: 'Request Now!',color: Theme.of(context).scaffoldBackgroundColor,onclick: () async {
-                    ToastBar(text: 'Please wait...',color: Colors.orange).show();
-                    String username = 'principiagalle@gmail.com';
-                    String password = 'admin@principia';
-
-                    final smtpServer = gmail(username, password);
-                    // Create our message.
-                    final message = Message()
-                      ..from = Address(username, 'Principia Edu')
-                      ..recipients.add('wans.solk@gmail.com')
-                      ..subject = 'New Request for expired lesson!'
-                      ..text = 'The User ${widget.phone} requested access for lesson $name ($id)';
-
-                    try {
-                      final sendReport = await send(message, smtpServer);
-                      print('Message sent: ' + sendReport.toString());
-                      ToastBar(text: 'Message Sent!',color: Colors.green).show();
-                      Navigator.pop(context);
-                    } on MailerException catch (e) {
-                      print('Message not sent.');
-                      ToastBar(text: 'Something went wrong!',color: Colors.red).show();
-                      for (var p in e.problems) {
-                        print('Problem: ${p.code}: ${p.msg}');
-                      }
-                    }
-                  }),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   void initState() {
@@ -100,7 +48,6 @@ class _LessonsState extends State<Lessons> {
     getNetworkTime();
     //getData();
     //Timer(Duration(seconds: 1), ()=>getData());
-
   }
 
   @override
@@ -119,14 +66,7 @@ class _LessonsState extends State<Lessons> {
         elevation: 0,
         centerTitle: true,
         title: CustomText(text: widget.subject,color: Colors.white,),
-        actions: [
-          IconButton(icon: Icon(Icons.fast_rewind_rounded),onPressed: (){
-            Navigator.push(
-              context,
-              CupertinoPageRoute(builder: (context) => PastLessons(phone: widget.phone,subject: widget.subject,)),
-            );
-          },)
-        ],
+
       ),
       body: Padding(
         padding:  EdgeInsets.all(ScreenUtil().setHeight(20)),
@@ -138,21 +78,18 @@ class _LessonsState extends State<Lessons> {
             itemBuilder: (context,i){
               print(now);
               int adminCount = data[i]['adminCount'];
-              List countList = data[i]['count'];
-              List payedList = data[i]['payed'];
+              List countList = data[i]['pastCount'];
+              List pastList = data[i]['past'];
               String id = data[i]['videoId'];
               String title = data[i]['name'];
               String image = data[i]['image'];
               String description = data[i]['description'];
-              int index = payedList.indexOf(widget.phone);
-              DateTime expired = DateTime.parse(data[i]['expired']);
+              int index = pastList.indexOf(widget.phone);
+              DateTime expired = DateTime.parse(data[i]['pastExpired'][index]);
               String formattedExpiredDate = DateFormat('yyyy/MM/dd @ hh:mm a').format(expired);
               String status;
               if(countList[index]>=adminCount){
                 status = 'out-of-views';
-              }
-              else if(expired.isBefore(now)){
-                status = 'session-expired';
               }
               else{
                 status = 'ongoing';
@@ -169,9 +106,6 @@ class _LessonsState extends State<Lessons> {
                           if(status=='out-of-views'){
                             ToastBar(text: 'You have reached maximum attempts to watch the lesson!',color: Colors.red).show();
                           }
-                          else if(status=='session-expired'){
-                            requestCard(context,title,data[i].id);
-                          }
                           else{
                             showDialog(
                                 context: context,
@@ -182,7 +116,7 @@ class _LessonsState extends State<Lessons> {
                                       FlatButton(onPressed: () async {
                                         countList[index] = countList[index]+1;
                                         await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).update({
-                                          'count' : countList
+                                          'pastCount' : countList
                                         });
                                         Navigator.pop(context);
                                         Navigator.push(
@@ -275,7 +209,7 @@ class _LessonsState extends State<Lessons> {
             },
 
           ),
-      ):Center(child: CustomText(text: 'There are no available lessons right now!',),):Center(child: CircularProgressIndicator(),),
+        ):Center(child: CustomText(text: 'There are no available lessons right now!',),):Center(child: CircularProgressIndicator(),),
       ),
     );
   }

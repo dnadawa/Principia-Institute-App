@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:principia/screens/register.dart';
-import 'package:principia/widgets/animated-transition.dart';
 import 'package:principia/widgets/button.dart';
 import 'package:principia/widgets/custom-text.dart';
 import 'package:principia/widgets/labled-inputfield.dart';
