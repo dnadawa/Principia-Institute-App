@@ -170,7 +170,7 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
 
-                            InputField(hint: 'A/L Year',controller: year,type: TextInputType.number,),
+                            InputField(hint: 'A/L Year',controller: year,type: TextInputType.number,length: 4,),
 
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(35)),
@@ -194,6 +194,7 @@ class _RegisterState extends State<Register> {
                                       DropdownMenuItem(child: CustomText(text: 'Principia - Galle',color: Colors.white,),value: 'Principia - Galle',),
                                       DropdownMenuItem(child: CustomText(text: 'Pubudu - Ambalangoda',color: Colors.white,),value: 'Pubudu - Ambalangoda',),
                                       DropdownMenuItem(child: CustomText(text: 'Sakya - Matara',color: Colors.white,),value: 'Sakya - Matara',),
+                                      DropdownMenuItem(child: CustomText(text: 'Other',color: Colors.white,),value: 'Other',),
                                     ],
                                     onChanged:(newValue){
                                       setState(() {

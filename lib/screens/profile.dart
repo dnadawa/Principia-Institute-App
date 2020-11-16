@@ -190,6 +190,7 @@ class _ProfileState extends State<Profile> {
                         DropdownMenuItem(child: CustomText(text: 'Principia - Galle',color: Theme.of(context).primaryColor,),value: 'Principia - Galle',),
                         DropdownMenuItem(child: CustomText(text: 'Pubudu - Ambalangoda',color: Theme.of(context).primaryColor,),value: 'Pubudu - Ambalangoda',),
                         DropdownMenuItem(child: CustomText(text: 'Sakya - Matara',color: Theme.of(context).primaryColor,),value: 'Sakya - Matara',),
+                        DropdownMenuItem(child: CustomText(text: 'Other',color: Theme.of(context).primaryColor,),value: 'Other',),
                       ],
                       onChanged:(newValue){
                         setState(() {
