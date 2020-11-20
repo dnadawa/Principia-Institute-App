@@ -53,7 +53,6 @@ class _ProfileState extends State<Profile> {
 
   getSubjects(String name) async {
     subjectsList.clear();
-    subs.clear();
     var sub = await FirebaseFirestore.instance.collection('streams').where('name', isEqualTo: name).get();
     var subjects = sub.docs;
     for(int i=0;i<subjects[0]['subjects'].length;i++){
@@ -61,6 +60,7 @@ class _ProfileState extends State<Profile> {
         subjectsList.add(
             MultiSelectItem(subjects[0]['subjects'][i],subjects[0]['subjects'][i])
         );
+        subs.add(subjects[0]['subjects'][i]);
       });
     }
   }
