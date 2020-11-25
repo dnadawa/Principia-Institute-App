@@ -105,20 +105,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        Container(
-                          width: ScreenUtil().setWidth(480),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: MarqueeWidget(
-                            child: CustomText(
-                              text: widget.name[1],
-                              size: ScreenUtil().setSp(50),
-                              align: TextAlign.start,
-                            ),
-                          ),
-                        ),
                       ],
                     )
                   ],

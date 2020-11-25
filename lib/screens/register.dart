@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -110,7 +109,7 @@ class _RegisterState extends State<Register> {
                                   height: ScreenUtil().setWidth(300),
                                   child: Image.asset('images/register.jpg')),
                             ),
-                            InputField(hint: 'Name',controller: name,),
+                            InputField(hint: 'First Name & Last Name',controller: name,),
                             InputField(hint: 'Phone Number (07xxxxxxxx)',type: TextInputType.phone,controller: phone,length: 10,),
                             InputField(hint: 'Password',controller: password,ispassword: true,),
                             Padding(
@@ -210,7 +209,6 @@ class _RegisterState extends State<Register> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
                               child: Button(text: 'Register',onclick: () async {
-
                                 if(name.text!=''&&phone.text!=''&&year.text!=''&&password.text!=''&&subs.length>0){
                                       if(phone.text.length == 10){
                                         var sub  = await FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: phone.text).get();
