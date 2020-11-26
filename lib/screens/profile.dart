@@ -190,6 +190,9 @@ class _ProfileState extends State<Profile> {
                         DropdownMenuItem(child: CustomText(text: 'Principia - Galle',color: Theme.of(context).primaryColor,),value: 'Principia - Galle',),
                         DropdownMenuItem(child: CustomText(text: 'Pubudu - Ambalangoda',color: Theme.of(context).primaryColor,),value: 'Pubudu - Ambalangoda',),
                         DropdownMenuItem(child: CustomText(text: 'Sakya - Matara',color: Theme.of(context).primaryColor,),value: 'Sakya - Matara',),
+                        DropdownMenuItem(child: CustomText(text: 'Teknic - Mathugama',color: Colors.white,),value: 'Teknic - Mathugama',),
+                        DropdownMenuItem(child: CustomText(text: 'Sonic - Horana',color: Colors.white,),value: 'Sonic - Horana',),
+                        DropdownMenuItem(child: CustomText(text: 'Rotary - Nugegoda',color: Colors.white,),value: 'Rotary - Nugegoda',),
                         DropdownMenuItem(child: CustomText(text: 'Other',color: Theme.of(context).primaryColor,),value: 'Other',),
                       ],
                       onChanged:(newValue){

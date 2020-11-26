@@ -19,7 +19,8 @@ import 'package:mailer/mailer.dart';
 class Lessons extends StatefulWidget {
   final String subject;
   final String phone;
-  const Lessons({Key key, this.subject, this.phone}) : super(key: key);
+  final String name;
+  const Lessons({Key key, this.subject, this.phone, this.name}) : super(key: key);
 
   @override
   _LessonsState createState() => _LessonsState();
@@ -121,7 +122,7 @@ class _LessonsState extends State<Lessons> {
           IconButton(icon: Icon(Icons.fast_rewind_rounded),onPressed: (){
             Navigator.push(
               context,
-              CupertinoPageRoute(builder: (context) => PastLessons(phone: widget.phone,subject: widget.subject,)),
+              CupertinoPageRoute(builder: (context) => PastLessons(phone: widget.phone,subject: widget.subject,name: widget.name,)),
             );
           },)
         ],
@@ -190,6 +191,8 @@ class _LessonsState extends State<Lessons> {
                                             title: title,
                                             description: description,
                                             id: data[i].id,
+                                            phone: widget.phone,
+                                            name: widget.name,
                                           )),
                                         );
                                       }, child: CustomText(text: 'Yes',color: Colors.black,)),

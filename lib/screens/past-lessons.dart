@@ -15,7 +15,8 @@ import 'package:principia/widgets/toast.dart';
 class PastLessons extends StatefulWidget {
   final String subject;
   final String phone;
-  const PastLessons({Key key, this.subject, this.phone}) : super(key: key);
+  final String name;
+  const PastLessons({Key key, this.subject, this.phone, this.name}) : super(key: key);
 
   @override
   _PastLessonsState createState() => _PastLessonsState();
@@ -132,6 +133,8 @@ class _PastLessonsState extends State<PastLessons> {
                                             title: title,
                                             description: description,
                                             id: data[i].id,
+                                            phone: widget.phone,
+                                            name: widget.name,
                                           )),
                                         );
                                       }, child: CustomText(text: 'Yes',color: Colors.black,)),

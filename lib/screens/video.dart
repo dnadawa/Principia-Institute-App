@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -10,19 +12,59 @@ class VideoScreen extends StatefulWidget {
   final String title;
   final String description;
   final String id;
+  final String phone;
+  final String name;
 
-  const VideoScreen({Key key, this.videoId, this.title, this.description, this.id}) : super(key: key);
+  const VideoScreen({Key key, this.videoId, this.title, this.description, this.id, this.phone, this.name}) : super(key: key);
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
   List dataList;
-
+  GlobalKey conSize = GlobalKey();
+  OverlayEntry entry;
   getResources() async {
     var sub = await FirebaseFirestore.instance.collection('lessons').doc(widget.id).collection('files').get();
     setState(() {
       dataList = sub.docs;
+    });
+  }
+
+  showOverlay(BuildContext context){
+    double appBarHeight = MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
+    double height = appBarHeight;
+    final RenderBox renderBoxRed = conSize.currentContext.findRenderObject();
+    double videoHeight = renderBoxRed.size.height + appBarHeight - 25;
+    OverlayState overlayState = Overlay.of(context);
+    entry = OverlayEntry(
+        builder: (context){
+          return AnimatedPositioned(
+            duration: Duration(seconds: 10),
+            top: height,
+            left: MediaQuery.of(context).size.width/4,
+            child: Material(
+                type: MaterialType.transparency,
+                child: Text('${widget.phone}\n${widget.name}',style: TextStyle(color: Colors.white54,fontSize: 10),)),
+          );
+        }
+    );
+    overlayState.insert(entry);
+    //Timer(Duration(milliseconds: 100),()=>overlayState.setState(() {height=videoHeight -25;}));s
+    Timer.periodic(Duration(seconds: 11), (timer) {
+      overlayState.setState(() {
+          videoHeight = renderBoxRed.size.height + appBarHeight - 25;
+          appBarHeight = MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
+          height==videoHeight?height=appBarHeight:height=videoHeight;
+        });
+      // else{
+      //   overlayState.setState(() {
+      //     width = MediaQuery.of(context).size.width/4;
+      //     videoHeight = renderBoxRed.size.height + appBarHeight - 25;
+      //     appBarHeight = MediaQuery.of(context).padding.top + AppBar().preferredSize.height;
+      //     height==videoHeight?height=appBarHeight:height=videoHeight;
+      //   });
+      // }
     });
   }
 
@@ -31,6 +73,7 @@ class _VideoScreenState extends State<VideoScreen> {
     // TODO: implement initState
     super.initState();
     getResources();
+    Timer(Duration(seconds: 7), (){showOverlay(context);});
   }
 
   @override
@@ -43,11 +86,15 @@ class _VideoScreenState extends State<VideoScreen> {
         centerTitle: true,
         backgroundColor: Color(0xff52575D),
         title: CustomText(text: widget.title,color: Colors.white,),
+        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
+          entry.remove();
+          Navigator.pop(context);
+        }),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            VimeoPlayer(id: widget.videoId, looping: false,autoPlay: false,),
+            VimeoPlayer(id: widget.videoId, looping: false,autoPlay: false,key: conSize,),
             Padding(
               padding: EdgeInsets.all(ScreenUtil().setHeight(30)),
               child: Card(

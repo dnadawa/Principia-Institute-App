@@ -193,6 +193,9 @@ class _RegisterState extends State<Register> {
                                       DropdownMenuItem(child: CustomText(text: 'Principia - Galle',color: Colors.white,),value: 'Principia - Galle',),
                                       DropdownMenuItem(child: CustomText(text: 'Pubudu - Ambalangoda',color: Colors.white,),value: 'Pubudu - Ambalangoda',),
                                       DropdownMenuItem(child: CustomText(text: 'Sakya - Matara',color: Colors.white,),value: 'Sakya - Matara',),
+                                      DropdownMenuItem(child: CustomText(text: 'Teknic - Mathugama',color: Colors.white,),value: 'Teknic - Mathugama',),
+                                      DropdownMenuItem(child: CustomText(text: 'Sonic - Horana',color: Colors.white,),value: 'Sonic - Horana',),
+                                      DropdownMenuItem(child: CustomText(text: 'Rotary - Nugegoda',color: Colors.white,),value: 'Rotary - Nugegoda',),
                                       DropdownMenuItem(child: CustomText(text: 'Other',color: Colors.white,),value: 'Other',),
                                     ],
                                     onChanged:(newValue){

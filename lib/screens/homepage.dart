@@ -16,8 +16,9 @@ class HomePage extends StatefulWidget {
   final String stream;
   final String phone;
   final List subjects;
+  final String fullname;
 
-  const HomePage({Key key, this.name, this.stream, this.subjects, this.phone}) : super(key: key);
+  const HomePage({Key key, this.name, this.stream, this.subjects, this.phone, this.fullname}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: (){
                             Navigator.push(
                               context,
-                              CupertinoPageRoute(builder: (context) => Lessons(subject: subject,phone: widget.phone)),
+                              CupertinoPageRoute(builder: (context) => Lessons(subject: subject,phone: widget.phone,name: widget.fullname,)),
                             );
                           },
                           child: Card(
