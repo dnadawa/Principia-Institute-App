@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:principia/screens/announcements.dart';
 import 'package:principia/screens/homepage.dart';
 import 'package:principia/screens/profile.dart';
 import 'package:principia/screens/register.dart';
+import 'package:principia/screens/update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -61,12 +62,32 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
     });
   }
 
+  getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String buildNumber = packageInfo.buildNumber;
+    String version = packageInfo.version;
+    var sub = await FirebaseFirestore.instance.collection('info').where('key', isEqualTo: 'buildNumber').get();
+    var info = sub.docs;
+    await FirebaseFirestore.instance.collection('version').doc(widget.phone).set({
+      'name': name,
+      'phone': widget.phone,
+      'version': version,
+      'buildNumber': buildNumber
+    });
+    if(buildNumber!=info[0]['buildNumber']){
+      Navigator.of(context).pushAndRemoveUntil(
+          CupertinoPageRoute(builder: (context) => UpdateScreen()), (Route<dynamic> route) => false);
+    }
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     checkLoggedDevice();
     tabController = new TabController(length: 3, vsync: this, initialIndex: 0);
+    getPackageInfo();
   }
 
   @override
