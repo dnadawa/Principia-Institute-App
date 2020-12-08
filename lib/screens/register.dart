@@ -212,7 +212,7 @@ class _RegisterState extends State<Register> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
                               child: Button(text: 'Register',onclick: () async {
-                                if(name.text!=''&&phone.text!=''&&year.text!=''&&password.text!=''&&subs.length>0){
+                                if(name.text!=''&&phone.text!=''&&year.text!=''&&password.text!=''&&stream!=null&&subs.isNotEmpty){
                                       if(phone.text.length == 10){
                                         var sub  = await FirebaseFirestore.instance.collection('users').where('phone', isEqualTo: phone.text).get();
                                         var numList = sub.docs;
