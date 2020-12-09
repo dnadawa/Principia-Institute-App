@@ -74,7 +74,7 @@ class _HomeStructureState extends State<HomeStructure> with SingleTickerProvider
       'version': version,
       'buildNumber': buildNumber
     });
-    if(buildNumber!=info[0]['buildNumber']){
+    if(int.parse(buildNumber)<int.parse(info[0]['buildNumber'])){
       Navigator.of(context).pushAndRemoveUntil(
           CupertinoPageRoute(builder: (context) => UpdateScreen()), (Route<dynamic> route) => false);
     }

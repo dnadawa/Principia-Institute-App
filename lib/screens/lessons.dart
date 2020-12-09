@@ -35,9 +35,25 @@ class _LessonsState extends State<Lessons> {
     subscription = FirebaseFirestore.instance.collection('lessons').where('payed', arrayContains: widget.phone).where('subject', isEqualTo: widget.subject).snapshots().listen((datasnapshot){
       setState(() {
         data = datasnapshot.docs;
+        getCount();
       });
     });
+  }
 
+  List testCounts = [];
+
+  getCount() async {
+    testCounts.clear();
+    for(int i=0;i<data.length;i++){
+      var sub = await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).collection('payed').where('phone', isEqualTo: widget.phone).get();
+      var count = sub.docs;
+      if(count.isNotEmpty){
+        print('count is :'+count[0]['count'].toString());
+        setState(() {
+          testCounts.add(count[0]['count']);
+        });
+      }
+    }
   }
 
   getNetworkTime() async {
@@ -67,7 +83,7 @@ class _LessonsState extends State<Lessons> {
                   // Create our message.
                   final message = Message()
                     ..from = Address(username, 'Principia Edu')
-                    ..recipients.add('wans.solk@gmail.com')
+                    ..recipients.add('assist.principia@gmail.com')
                     ..subject = 'New Request for expired lesson!'
                     ..text = 'The User ${widget.phone} requested access for lesson $name ($id)';
 
@@ -129,25 +145,24 @@ class _LessonsState extends State<Lessons> {
       ),
       body: Padding(
         padding:  EdgeInsets.all(ScreenUtil().setHeight(20)),
-        child: data!=null?
+        child: data!=null&&testCounts.length==data.length?
         data.isNotEmpty?AnimationLimiter(
           child: ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: data.length,
             itemBuilder: (context,i){
-              print(now);
               int adminCount = data[i]['adminCount'];
-              List countList = data[i]['count'];
-              List payedList = data[i]['payed'];
+              //List countList = data[i]['count'];
+              //List payedList = data[i]['payed'];
               String id = data[i]['videoId'];
               String title = data[i]['name'];
               String image = data[i]['image'];
               String description = data[i]['description'];
-              int index = payedList.indexOf(widget.phone);
+              //int index = payedList.indexOf(widget.phone);
               DateTime expired = DateTime.parse(data[i]['expired']);
               String formattedExpiredDate = DateFormat('yyyy/MM/dd @ hh:mm a').format(expired);
               String status;
-              if(countList[index]>=adminCount){
+              if(testCounts[i]>=adminCount){
                 status = 'out-of-views';
               }
               else if(expired.isBefore(now)){
@@ -179,10 +194,14 @@ class _LessonsState extends State<Lessons> {
                                     content: CustomText(text: 'Are you sure you want to watch this lesson?',color: Colors.black,),
                                     actions: [
                                       FlatButton(onPressed: () async {
-                                        countList[index] = countList[index]+1;
-                                        await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).update({
-                                          'count' : countList
+                                        // countList[index] = countList[index]+1;
+                                        // await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).update({
+                                        //   'count' : countList
+                                        // });
+                                        await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).collection('payed').doc(widget.phone).update({
+                                          'count': testCounts[i]+1
                                         });
+                                        getCount();
                                         Navigator.pop(context);
                                         Navigator.push(
                                           context,

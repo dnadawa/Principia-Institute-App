@@ -170,7 +170,7 @@ class _OTPLoginState extends State<OTPLogin> with TickerProviderStateMixin {
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(60)),
-                                child: Button(text: 'Verify and Create account',onclick: () async {
+                                child: Button(text: 'Verify and Log into account',onclick: () async {
                                   try{
                                     ToastBar(text: 'Please wait...',color: Colors.orangeAccent).show();
                                     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(verificationId: gVerificationId, smsCode: code.text);
