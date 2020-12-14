@@ -15,6 +15,7 @@ import 'package:principia/widgets/marquee.dart';
 import 'package:principia/widgets/toast.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:mailer/mailer.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class Lessons extends StatefulWidget {
   final String subject;
@@ -31,30 +32,31 @@ class _LessonsState extends State<Lessons> {
   StreamSubscription<QuerySnapshot> subscription;
   DateTime now;
 
+
   getData(){
     subscription = FirebaseFirestore.instance.collection('lessons').where('payed', arrayContains: widget.phone).where('subject', isEqualTo: widget.subject).snapshots().listen((datasnapshot){
       setState(() {
         data = datasnapshot.docs;
-        getCount();
+        //getCount();
       });
     });
   }
 
-  List testCounts = [];
-
-  getCount() async {
-    testCounts.clear();
-    for(int i=0;i<data.length;i++){
-      var sub = await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).collection('payed').where('phone', isEqualTo: widget.phone).get();
-      var count = sub.docs;
-      if(count.isNotEmpty){
-        print('count is :'+count[0]['count'].toString());
-        setState(() {
-          testCounts.add(count[0]['count']);
-        });
-      }
-    }
-  }
+  // List testCounts = [];
+  //
+  // getCount() async {
+  //   testCounts.clear();
+  //   for(int i=0;i<data.length;i++){
+  //     var sub = await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).collection('payed').where('phone', isEqualTo: widget.phone).get();
+  //     var count = sub.docs;
+  //     if(count.isNotEmpty){
+  //       print('count is :'+count[0]['count'].toString());
+  //       setState(() {
+  //         testCounts.add(count[0]['count']);
+  //       });
+  //     }
+  //   }
+  // }
 
   getNetworkTime() async {
     now = await NTP.now();
@@ -145,12 +147,13 @@ class _LessonsState extends State<Lessons> {
       ),
       body: Padding(
         padding:  EdgeInsets.all(ScreenUtil().setHeight(20)),
-        child: data!=null&&testCounts.length==data.length?
+        child: data!=null?
         data.isNotEmpty?AnimationLimiter(
           child: ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: data.length,
             itemBuilder: (context,i){
+              int viewCount;
               int adminCount = data[i]['adminCount'];
               //List countList = data[i]['count'];
               //List payedList = data[i]['payed'];
@@ -162,10 +165,10 @@ class _LessonsState extends State<Lessons> {
               DateTime expired = DateTime.parse(data[i]['expired']);
               String formattedExpiredDate = DateFormat('yyyy/MM/dd @ hh:mm a').format(expired);
               String status;
-              if(testCounts[i]>=adminCount){
-                status = 'out-of-views';
-              }
-              else if(expired.isBefore(now)){
+              // if(testCounts[i]>=adminCount){
+              //   status = 'out-of-views';
+              // }
+              if(expired.isBefore(now)){
                 status = 'session-expired';
               }
               else{
@@ -179,14 +182,42 @@ class _LessonsState extends State<Lessons> {
                     verticalOffset: 50,
                     child: SlideAnimation(
                       child: GestureDetector(
-                        onTap: (){
-                          if(status=='out-of-views'){
+                        onTap: () async {
+                          ProgressDialog pr = ProgressDialog(context);
+                          pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+                          pr.style(
+                              message: 'Please wait...',
+                              borderRadius: 10.0,
+                              backgroundColor: Colors.white,
+                              progressWidget: Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).scaffoldBackgroundColor),)),
+                              elevation: 10.0,
+                              insetAnimCurve: Curves.easeInOut,
+                              messageTextStyle: TextStyle(
+                                  color: Colors.black, fontSize: ScreenUtil().setSp(35), fontWeight: FontWeight.bold)
+                          );
+                          await pr.show();
+                          bool isOutOfViews = false;
+                          var sub = await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).collection('payed').where('phone', isEqualTo: widget.phone).get();
+                          var count = sub.docs;
+                          if(count.isNotEmpty){
+                            setState(() {
+                              viewCount = count[0]['count'];
+                              if(viewCount>=adminCount) {
+                                isOutOfViews = true;
+                              }
+                            });
+                          }
+
+                          if(isOutOfViews){
+                            await pr.hide();
                             ToastBar(text: 'You have reached maximum attempts to watch the lesson!',color: Colors.red).show();
                           }
                           else if(status=='session-expired'){
+                            await pr.hide();
                             requestCard(context,title,data[i].id);
                           }
                           else{
+                            await pr.hide();
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context){
@@ -198,10 +229,12 @@ class _LessonsState extends State<Lessons> {
                                         // await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).update({
                                         //   'count' : countList
                                         // });
+                                        await pr.show();
                                         await FirebaseFirestore.instance.collection('lessons').doc(data[i].id).collection('payed').doc(widget.phone).update({
-                                          'count': testCounts[i]+1
+                                          'count': viewCount+1
                                         });
-                                        getCount();
+                                        //getCount();
+                                        await pr.hide();
                                         Navigator.pop(context);
                                         Navigator.push(
                                           context,
@@ -223,7 +256,7 @@ class _LessonsState extends State<Lessons> {
                                 }
                             );
                           }
-                        },
+                          },
                         child: Card(
                           elevation: 5,
                           color: Theme.of(context).scaffoldBackgroundColor,
